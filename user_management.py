@@ -22,7 +22,7 @@ def retrieveUsers(username, password):
         con.close()
         return False
     else:
-        cur.execute(f"SELECT * FROM users WHERE password = '{password}'")
+        cur.execute("SELECT * FROM users WHERE password = ?", (password,))
         # Plain text log of visitor count as requested by Unsecure PWA management
         with open("visitor_log.txt", "r") as file:
             number = int(file.read().strip())
@@ -42,7 +42,7 @@ def retrieveUsers(username, password):
 def insertFeedback(feedback):
     con = sql.connect("database_files/database.db")
     cur = con.cursor()
-    cur.execute(f"INSERT INTO feedback (feedback) VALUES ('{feedback}')")
+    cur.execute("INSERT INTO feedback (feedback) VALUES (%s)", (feedback,))
     con.commit()
     con.close()
 
